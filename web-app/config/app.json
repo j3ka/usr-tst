@@ -5,9 +5,14 @@
   },
   "arguments": {
     "PDO": [
-      {"type": "env", "name": "dsn"},
-      {"type": "env", "name": "username"},
-      {"type": "env", "name": "passwd"}
+      {"source": "env", "name": "dsn"},
+      {"source": "env", "name": "username"},
+      {"source": "env", "name": "passwd"}
+    ],
+    "Predis\\Client": [
+      {"source": "env", "name": "scheme"},
+      {"source": "env", "name": "host"},
+      {"source": "env", "name": "port"}
     ]
   }
 }

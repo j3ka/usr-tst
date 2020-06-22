@@ -9,7 +9,7 @@ interface ConfigInterface
      *
      * @return string
      */
-    public function resolveInteface(string $interfaceName): string;
+    public function resolveInterface(string $interfaceName): string;
 
     /**
      * @param string $className

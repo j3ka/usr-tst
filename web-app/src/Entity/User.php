@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
+use JsonSerializable;
 use Lib\Database\EntityInterface;
-use Lib\Database\Field\Decimal;
-use Lib\Database\Field\Integer;
-use Lib\Database\Field\Varchar;
 
-class User implements EntityInterface
+class User implements EntityInterface, JsonSerializable
 {
     /**
      * @var int
@@ -115,5 +113,15 @@ class User implements EntityInterface
     public function getTotal(): float
     {
         return $this->total;
+    }
+
+    public function jsonSerialize()
+    {
+        $result = [];
+        foreach ($this->getColumnMap() as $val) {
+            $result[$val] = $this->{$val};
+        }
+
+        return $result;
     }
 }

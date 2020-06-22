@@ -48,7 +48,7 @@ class JsonConfig implements ConfigInterface
      *
      * @return string
      */
-    public function resolveInteface(string $interfaceName): string
+    public function resolveInterface(string $interfaceName): string
     {
         if (!isset($this->interfacesMapping[$interfaceName])) {
             throw new \RuntimeException('Can not find class for interface '.$interfaceName);

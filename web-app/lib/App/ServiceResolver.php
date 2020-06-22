@@ -31,7 +31,7 @@ class ServiceResolver
     {
         $ref = new ReflectionClass($className);
         if ($ref->isInterface()) {
-            $className = $this->config->resolveInteface($className);
+            $className = $this->config->resolveInterface($className);
             $ref = new ReflectionClass($className);
         }
         $constructor = $ref->getConstructor();

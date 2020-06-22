@@ -22,6 +22,9 @@ services:
         environment:
             XDEBUG_CONFIG: "remote_host=192.168.150.1 remote_enable=1"
             PHP_IDE_CONFIG: "serverName=Docker"
+            dsn: "mysql:host=lmp-mysql;port=3306;dbname=lmp;charset=utf8"
+            passwd: "root"
+            username: "root"
         depends_on:
             - lmp-mysql
         networks:
@@ -41,6 +44,9 @@ services:
 
     lmp-mysql:
         image: mysql:8
+        #build:
+        #    context: ./docker/dev
+        #    dockerfile: mysql.docker
         volumes:
             - lmp-mysql:/var/lib/mysql
         environment:

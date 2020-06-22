@@ -1,0 +1,3 @@
+{
+  "/index": "App\\Controller\\IndexController"
+}
