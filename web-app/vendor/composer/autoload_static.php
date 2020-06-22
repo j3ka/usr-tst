@@ -10,6 +10,7 @@ class ComposerStaticInit34cf9b6746ed3665e962866ccbc39717
         'P' => 
         array (
             'Psr\\Container\\' => 14,
+            'Predis\\' => 7,
         ),
         'L' => 
         array (
@@ -25,6 +26,10 @@ class ComposerStaticInit34cf9b6746ed3665e962866ccbc39717
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Predis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/predis/predis/src',
         ),
         'Lib\\' => 
         array (
