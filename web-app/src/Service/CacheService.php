@@ -20,6 +20,7 @@ class CacheService implements CacheInterface
 
     /**
      * @param Client $reidsClient
+     * @param SerializerInterface $serializer
      */
     public function __construct(Client $reidsClient, SerializerInterface $serializer)
     {

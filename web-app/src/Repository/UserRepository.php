@@ -18,6 +18,7 @@ class UserRepository extends Repository
     /**
      * @param Session $sess
      * @param UserFactory $factory
+     * @param CacheInterface $cache
      */
     public function __construct(Session $sess, UserFactory $factory, CacheInterface $cache)
     {

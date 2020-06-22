@@ -1,0 +1,13 @@
+{
+  "interfaces": {
+    "Lib\\App\\CacheInterface":"App\\Service\\CacheService",
+    "Lib\\App\\SerializerInterface": "App\\Service\\JsonSerializer"
+  },
+  "arguments": {
+    "PDO": [
+      {"type": "env", "name": "dsn"},
+      {"type": "env", "name": "username"},
+      {"type": "env", "name": "passwd"}
+    ]
+  }
+}
