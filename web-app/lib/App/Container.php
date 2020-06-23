@@ -14,12 +14,18 @@ class Container implements ContainerInterface
     private ServiceResolver $resolver;
 
     /**
+     * @var array
+     */
+    private array $services;
+
+    /**
      * Container constructor.
      * @param ServiceResolver $resolver
      */
     public function __construct(ServiceResolver $resolver)
     {
         $this->resolver = $resolver;
+        $this->services = [];
     }
 
     /**
@@ -32,7 +38,11 @@ class Container implements ContainerInterface
      */
     public function get($id)
     {
-        return $this->resolver->resolve($id);
+        if (!isset($this->services[$id])) {
+            $this->services[$id] = $this->resolver->resolve($id);
+        }
+
+        return $this->services[$id];
     }
 
     /**
