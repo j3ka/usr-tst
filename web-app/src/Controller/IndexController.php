@@ -40,6 +40,6 @@ class IndexController implements RequestHandlerInterface
     {
         $user = $this->userRepository->findBy(['id' => 1]);
 
-        return new Response(200, $this->serializer->serialize($user));
+        return new Response(200, $this->serializer->serialize($user), ['Content-Type: application/json']);
     }
 }

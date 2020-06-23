@@ -31,6 +31,6 @@ class Error404Controller implements RequestHandlerInterface
     {
         $msg = $this->serializer->serialize(['error' => 'Page not found']);
 
-        return new Response(404, $msg);
+        return new Response(404, $msg, ['Content-Type: application/json']);
     }
 }
