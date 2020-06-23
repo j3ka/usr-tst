@@ -3,6 +3,7 @@
 namespace App\Api\ImportUsersCSV;
 
 use App\Factory\UserFactory;
+use App\Form\UserForm;
 use Lib\App\CacheInterface;
 use Lib\Database\Session;
 use Lib\Reader\CSVReader;
@@ -43,19 +44,24 @@ class Handler
     {
         $reader = new CSVReader($cmd->getFileName());
         for (;;) {
-            $userData = $reader->parseChunked($cmd->getChunkSize());
-            if (empty($userData)) {
+            $usersData = $reader->parseChunked($cmd->getChunkSize());
+            if (empty($usersData)) {
                 break;
             }
-            foreach ($userData as $userData) {
-                // TODO: form validation
-                $user = $this->userFactory->create(
-                    (int) $userData[0],
-                    $userData[1],
-                    $userData[2],
-                    $userData[3],
-                    (float) $userData[4]
-                );
+            foreach ($usersData as $userData) {
+                $form = new UserForm();
+                $form->validate([
+                    'id' => $userData[0],
+                    'username' => $userData[1],
+                    'email' => $userData[2],
+                    'currency' => $userData[3],
+                    'total' => $userData[4],
+                ]);
+                if (!$form->isValid()) {
+                    continue;
+                }
+                $user = $this->userFactory->arrayToEntity($form->getClearedData());
+
                 $this->sess->add($user);
             }
             $this->sess->commit();
