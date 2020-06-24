@@ -2,30 +2,37 @@
 
 namespace Lib\App;
 
+use Lib\App\Config\ConfigInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use ReflectionClass;
+use ReflectionException;
+use RuntimeException;
 
 class Container implements ContainerInterface
 {
-    /**
-     * @var ServiceResolver
-     */
-    private ServiceResolver $resolver;
-
     /**
      * @var array
      */
     private array $services;
 
     /**
-     * Container constructor.
-     * @param ServiceResolver $resolver
+     * @var ConfigInterface
      */
-    public function __construct(ServiceResolver $resolver)
+    private ConfigInterface $config;
+
+    /**
+     * Container constructor.
+     * @param KernelInterface $kernel
+     * @param ConfigInterface $config
+     */
+    public function __construct(KernelInterface $kernel, ConfigInterface $config)
     {
-        $this->resolver = $resolver;
+        $this->config = $config;
         $this->services = [];
+
+        $this->services[KernelInterface::class] = $kernel;
     }
 
     /**
@@ -39,7 +46,7 @@ class Container implements ContainerInterface
     public function get($id)
     {
         if (!isset($this->services[$id])) {
-            $this->services[$id] = $this->resolver->resolve($id);
+            $this->services[$id] = $this->resolve($id);
         }
 
         return $this->services[$id];
@@ -52,6 +59,60 @@ class Container implements ContainerInterface
      */
     public function has($id): bool
     {
-        return true;
+        return isset($this->services[$id]);
+    }
+
+    /**
+     * @param string $className
+     * @return mixed|object
+     * @throws ReflectionException
+     */
+    public function resolve(string $className)
+    {
+        $ref = new ReflectionClass($className);
+        if ($ref->isInterface()) {
+            $className = $this->config->resolveInterface($className);
+            $ref = new ReflectionClass($className);
+        }
+        $constructor = $ref->getConstructor();
+        if (null === $constructor) {
+            return new $className();
+        }
+        if ($constructor->isAbstract()) {
+            throw new RuntimeException('Can not create abstract class');
+        }
+        if ($constructor->isPrivate()) {
+            throw new RuntimeException('Can not create singleton class');
+        }
+        if (
+            $constructor->getNumberOfParameters() === 1
+            && $constructor->getParameters()[0]->getName() === 'argument'
+        ) {
+            return new $className();
+        }
+        $args = [];
+        $argsCollection = $this->config->getArgumentsForClass($className);
+
+        foreach ($constructor->getParameters() as $arg) {
+            $argClass = $arg->getClass();
+            if (null === $argClass) {
+                $argName = $arg->getName();
+                if (null !== $argsCollection) {
+                    $findedArg = $argsCollection->getArgument($argName);
+                    if (null === $findedArg ) {
+                        if ($arg->isOptional()) {
+                            break;
+                        }
+                        throw new RuntimeException('Argument "'.$argName.'" for service "'.$className.'" not defined');
+                    }
+
+                    $args[] = $findedArg;
+                }
+            } else {
+                $args[] = $this->get($argClass->getName());
+            }
+        }
+
+        return $ref->newInstanceArgs($args);
     }
 }

@@ -51,11 +51,11 @@ class Handler
             foreach ($usersData as $userData) {
                 $form = new UserForm();
                 $form->validate([
-                    'id' => $userData[0],
-                    'username' => $userData[1],
-                    'email' => $userData[2],
-                    'currency' => $userData[3],
-                    'total' => $userData[4],
+                    'id' => $userData[0] ?? '',
+                    'username' => $userData[1] ?? '',
+                    'email' => $userData[2] ?? '',
+                    'currency' => $userData[3] ?? '',
+                    'total' => $userData[4] ?? '',
                 ]);
                 if (!$form->isValid()) {
                     continue;
@@ -68,5 +68,8 @@ class Handler
         }
 
         $this->cache->clearKeys();
+        if (file_exists($cmd->getFileName())) {
+            unlink($cmd->getFileName());
+        }
     }
 }

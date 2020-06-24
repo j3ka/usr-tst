@@ -16,9 +16,9 @@ class ArgumentCollection
 
     /**
      * @param string $argumentName
-     * @param string $argumentValue
+     * @param $argumentValue
      */
-    public function setArgument(string $argumentName, string $argumentValue): void
+    public function setArgument(string $argumentName, $argumentValue): void
     {
         $this->arguments[$argumentName] = $argumentValue;
     }
@@ -28,7 +28,7 @@ class ArgumentCollection
      *
      * @return mixed
      */
-    public function getArgument(string $argumentName): ?string
+    public function getArgument(string $argumentName)
     {
         if (!isset($this->arguments[$argumentName])) {
             return null;

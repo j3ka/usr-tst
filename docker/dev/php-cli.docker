@@ -7,9 +7,11 @@ RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
 RUN docker-php-ext-install mysqli
 RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd
 RUN docker-php-ext-install zip
+RUN docker-php-ext-install sockets
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --quiet
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 WORKDIR /container-app
+ENTRYPOINT php /container-app/bin/queue-listener.php

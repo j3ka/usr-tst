@@ -6,7 +6,6 @@ use App\Controller\Error404Controller;
 use Lib\App\Config\ConfigInterface;
 use Lib\App\Container;
 use Lib\App\KernelInterface;
-use Lib\App\ServiceResolver;
 use Lib\Http\HttpRequest;
 use Lib\Http\JsonRouteConfig;
 use Lib\Http\Message\Response;
@@ -16,14 +15,14 @@ use Lib\Http\Router;
 class Kernel implements KernelInterface
 {
     /**
-     * @var ConfigInterface
-     */
-    private ConfigInterface $config;
-
-    /**
      * @var string
      */
     private string $projectDir;
+
+    /**
+     * @var ConfigInterface
+     */
+    private ConfigInterface $config;
 
     /**
      * @param string $projectDir
@@ -31,14 +30,13 @@ class Kernel implements KernelInterface
      */
     public function __construct(string $projectDir, ConfigInterface $config)
     {
-        $this->config = $config;
         $this->projectDir = $projectDir;
+        $this->config = $config;
     }
 
     public function handle()
     {
-        $resolver = new ServiceResolver($this->config);
-        $container = new Container($resolver);
+        $container = new Container($this, $this->config);
 
         $router = new Router(
             new JsonRouteConfig($this->projectDir.'/config/routes.json'),
@@ -56,5 +54,13 @@ class Kernel implements KernelInterface
         }
 
         echo $response->getBody();
+    }
+
+    /**
+     * @return string
+     */
+    public function getProjectDir(): string
+    {
+        return $this->projectDir;
     }
 }

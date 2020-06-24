@@ -38,4 +38,9 @@ class Route
     {
         return $this->handlerClass;
     }
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
 }

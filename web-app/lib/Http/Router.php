@@ -2,8 +2,6 @@
 
 namespace Lib\Http;
 
-use Lib\App\Config\ConfigInterface;
-
 class Router
 {
     /**

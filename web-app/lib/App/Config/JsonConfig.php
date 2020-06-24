@@ -5,7 +5,8 @@ namespace Lib\App\Config;
 class JsonConfig implements ConfigInterface
 {
     private const DEFAULT_ARGUMENT_SOURCE = 'env',
-                  ENV_SORUCE = 'env';
+                  ENV_SORUCE = 'env',
+                  RAW_SOURCE = 'raw';
     /**
      * @var array
      */
@@ -74,9 +75,14 @@ class JsonConfig implements ConfigInterface
                 throw new \RuntimeException('No name for argument for class '.$className);
             }
             $name = $argument['name'];
+            $paramName = $argument['paramName'] ?? '';
             $source = $argument['source'] ?? self::DEFAULT_ARGUMENT_SOURCE;
             if ($source === self::ENV_SORUCE) {
-                $argumentCollection->setArgument($name, $_ENV[$name] ?? '');
+                $argumentCollection->setArgument($name, $_ENV[$paramName] ?? '');
+                continue;
+            }
+            if ($source === self::RAW_SOURCE) {
+                $argumentCollection->setArgument($name, $argument['value']);
                 continue;
             }
 

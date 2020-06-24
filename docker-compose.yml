@@ -22,9 +22,14 @@ services:
         environment:
             XDEBUG_CONFIG: "remote_host=192.168.150.1 remote_enable=1"
             PHP_IDE_CONFIG: "serverName=Docker"
-            dsn: "mysql:host=lmp-mysql;port=3306;dbname=lmp;charset=utf8"
-            passwd: "root"
-            username: "root"
+            PDO_DSN: "mysql:host=lmp-mysql;port=3306;dbname=lmp;charset=utf8"
+            PDO_USERNAME: "root"
+            PDO_PASSWD: "root"
+            REDIS_DSN: "tcp://lmp-redis:6379"
+            MQ_HOST: "lmp-rabbit"
+            MQ_PORT: "5672"
+            MQ_USER: "user"
+            MQ_PASSWD: "user"
         depends_on:
             - lmp-mysql
         networks:
@@ -41,12 +46,19 @@ services:
             - lmp-mysql
         networks:
             - inner
+        restart: on-failure
+        environment:
+            PDO_DSN: "mysql:host=lmp-mysql;port=3306;dbname=lmp;charset=utf8"
+            PDO_USERNAME: "root"
+            PDO_PASSWD: "root"
+            REDIS_DSN: "tcp://lmp-redis:6379"
+            MQ_HOST: "lmp-rabbit"
+            MQ_PORT: "5672"
+            MQ_USER: "user"
+            MQ_PASSWD: "user"
 
     lmp-mysql:
         image: mysql:8
-        #build:
-        #    context: ./docker/dev
-        #    dockerfile: mysql.docker
         volumes:
             - lmp-mysql:/var/lib/mysql
         environment:
@@ -58,10 +70,25 @@ services:
             - "33061:3306"
         networks:
             - inner
+
     lmp-redis:
         image: redis:latest
         networks:
             - inner
+
+    lmp-rabbit:
+        image: rabbitmq:3.7.5-management
+        working_dir: /container-app
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+        environment:
+            RABBITMQ_DEFAULT_USER: user
+            RABBITMQ_DEFAULT_PASS: user
+            RABBITMQ_DEFAULT_VHOST: /
+        networks:
+            - inner
+
 networks:
     inner:
         driver: bridge

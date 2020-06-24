@@ -19,13 +19,22 @@ abstract class AbstractForm
      */
     abstract public function getTypes(): array;
 
+    /**
+     * @param array $inputData
+     */
     public function validate(array $inputData): void
     {
+        if (empty($inputData) || count($this->getTypes()) > count($inputData)) {
+            foreach ($this->getTypes() as $fieldName => $type) {
+                $this->errors[] = new FormError('Field "'.$fieldName.'" missing in form');
+            }
+            return;
+        }
         foreach ($inputData as $fieldName => $fieldValue) {
             if (!isset($this->getTypes()[$fieldName])) {
                 $this->errors[] = new FormError(
                     'Field "'.htmlspecialchars($fieldName)
-                    .'" does not exists in form "'
+                    .'" should not exists in form "'
                     .get_class($this).'"'
                 );
                 continue;
@@ -44,8 +53,16 @@ abstract class AbstractForm
         return count($this->getErrors()) === 0;
     }
 
-    public function getClearedData(): array
+    /**
+     * @param string|null $field
+     * @return array
+     */
+    public function getClearedData(string $field = null): array
     {
+        if (null !== $field && isset($this->clearData[$field])) {
+            return $this->clearedData[$field];
+        }
+
         return $this->clearedData;
     }
 

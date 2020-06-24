@@ -5,14 +5,18 @@
   },
   "arguments": {
     "PDO": [
-      {"source": "env", "name": "dsn"},
-      {"source": "env", "name": "username"},
-      {"source": "env", "name": "passwd"}
+      {"source": "env", "name": "dsn", "paramName": "PDO_DSN"},
+      {"source": "env", "name": "username", "paramName": "PDO_USERNAME"},
+      {"source": "env", "name": "passwd", "paramName": "PDO_PASSWD"}
     ],
     "Predis\\Client": [
-      {"source": "env", "name": "scheme"},
-      {"source": "env", "name": "host"},
-      {"source": "env", "name": "port"}
+      {"source": "env", "name": "parameters", "paramName": "REDIS_DSN"}
+    ],
+    "PhpAmqpLib\\Connection\\AMQPStreamConnection": [
+      {"source":  "env", "name":  "host", "paramName": "MQ_HOST"},
+      {"source":  "env", "name":  "port", "paramName": "MQ_PORT"},
+      {"source":  "env", "name":  "user", "paramName": "MQ_USER"},
+      {"source":  "env", "name":  "password", "paramName": "MQ_PASSWD"}
     ]
   }
 }

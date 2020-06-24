@@ -84,7 +84,7 @@ class CacheService implements CacheInterface
 
     public function clearKeys(): bool
     {
-        $res = $this->client->flushDB();
+        $res = $this->client->flushall();
 
         return true;
     }
