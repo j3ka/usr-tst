@@ -25,16 +25,17 @@ class Request extends AbstractMessage implements RequestInterface
     public function __construct()
     {
         $this->headers = [
-            'Accept' => $_SERVER['HTTP_ACCEPT'],
-            'Accept-Charset' => $_SERVER['HTTP_ACCEPT_CHARSET'],
-            'Accept-Encoding' => $_SERVER['HTTP_ACCEPT_ENCODING'],
-            'Accept-Language' => $_SERVER['HTTP_ACCEPT_LANGUAGE'],
-            'Connection' => $_SERVER['HTTP_CONNECTION'],
-            'Host' => $_SERVER['HTTP_HOST'],
-            'User-Agent' => $_SERVER['HTTP_USER_AGENT'],
+            'Accept' => $_SERVER['HTTP_ACCEPT'] ?? '',
+            'Accept-Charset' => $_SERVER['HTTP_ACCEPT_CHARSET'] ?? '',
+            'Accept-Encoding' => $_SERVER['HTTP_ACCEPT_ENCODING'] ?? '',
+            'Accept-Language' => $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '',
+            'Connection' => $_SERVER['HTTP_CONNECTION'] ?? '',
+            'Host' => $_SERVER['HTTP_HOST'] ?? '',
+            'User-Agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
+        $this->headers = array_filter($this->headers, fn($obj) => !empty($obj));
         $this->protocolVersion = $_SERVER['SERVER_PROTOCOL'] ??self::DEFAULT_PROTOCOL;
-        $requestUri = $_SERVER['REQUEST_URI'];
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
         $requestUri = preg_replace('/\?.+/','',$requestUri);
         $this->requestTarget = $requestUri;
         $this->method = $_SERVER['REQUEST_METHOD'] ?? 'GET';

@@ -56,8 +56,12 @@ class SearchUserController implements RequestHandlerInterface
             $form->getClearedData('value'),
             30
         );
+        $statusCode = 200;
+        if (empty($users)) {
+            $statusCode = 404;
+        }
 
-        return $this->getResponse(['data' => $users], 200);
+        return $this->getResponse(['data' => $users], $statusCode);
     }
 
     /**
