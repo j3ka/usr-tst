@@ -61,6 +61,7 @@ services:
         image: mysql:8
         volumes:
             - lmp-mysql:/var/lib/mysql
+            - ./docker/dev/mysql-init:/docker-entrypoint-initdb.d
         environment:
             MYSQL_DATABASE: lmp
             MYSQL_USER: lmp
