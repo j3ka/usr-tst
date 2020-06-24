@@ -7,12 +7,12 @@ abstract class AbstractForm
     /**
      * @var array
      */
-    private array $errors = [];
+    protected array $errors = [];
 
     /**
      * @var array
      */
-    private array $clearedData = [];
+    protected array $clearedData = [];
 
     /**
      * @return array
@@ -41,6 +41,7 @@ abstract class AbstractForm
             }
             $type = $this->getTypes()[$fieldName];
             $value = $this->clearData($type, $fieldValue);
+
             $this->clearedData[$fieldName] = $value;
             if (!$this->validateType($type, $value)) {
                 $this->errors[] = new FormError('Invalid value for field "'.$fieldName.'": "'.htmlspecialchars($value).'"');
@@ -57,9 +58,9 @@ abstract class AbstractForm
      * @param string|null $field
      * @return array
      */
-    public function getClearedData(string $field = null): array
+    public function getClearedData(string $field = null)
     {
-        if (null !== $field && isset($this->clearData[$field])) {
+        if (null !== $field && isset($this->clearedData[$field])) {
             return $this->clearedData[$field];
         }
 

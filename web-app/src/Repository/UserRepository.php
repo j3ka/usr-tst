@@ -63,7 +63,7 @@ class UserRepository extends Repository
      *
      * @return array
      */
-    private function search($fieldName, $fieldValue, int $limit = 0): array
+    public function search($fieldName, $fieldValue, int $limit = 0): array
     {
         $cacheKey = $fieldName.'_'.$fieldValue;
         

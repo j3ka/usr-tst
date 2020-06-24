@@ -1,4 +1,5 @@
 {
   "/": "App\\Controller\\IndexController",
-  "/import-user": "App\\Controller\\ImportUsersController"
+  "/user/import": "App\\Controller\\ImportUsersController",
+  "/user/search": "App\\Controller\\SearchUserController"
 }
