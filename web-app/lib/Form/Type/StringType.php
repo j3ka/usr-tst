@@ -12,7 +12,7 @@ class StringType implements TypeInterface
      */
     public function validate($data): bool
     {
-        if (!is_string($data)) {
+        if (!is_string($data) || empty($data)) {
             return false;
         }
 
@@ -25,6 +25,9 @@ class StringType implements TypeInterface
      */
     public function clearData($data)
     {
+        if (!is_string($data)) {
+            return '';
+        }
         $res = preg_replace('/[^a-zA-Z0-9\'@.]/', '', (string)$data);
         return addslashes($res);
     }

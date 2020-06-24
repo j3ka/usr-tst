@@ -44,7 +44,7 @@ abstract class AbstractForm
 
             $this->clearedData[$fieldName] = $value;
             if (!$this->validateType($type, $value)) {
-                $this->errors[] = new FormError('Invalid value for field "'.$fieldName.'": "'.htmlspecialchars($value).'"');
+                $this->errors[] = new FormError('Invalid value for field "'.$fieldName.'"');
             }
         }
     }
