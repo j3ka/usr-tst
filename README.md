@@ -37,8 +37,8 @@ $ ./vendor/bin/phpunit ./tests
 ***
 ### Maximum uploaded file size is 100M
 ### Ports:
-80 -> localhost:8888
-Rabbit: localhost:15672 (user:user)
+1. 80 -> localhost:8888
+2. Rabbit: localhost:15672 (user:user)
 ***
 I use curl to upload big files:
 ```bash
