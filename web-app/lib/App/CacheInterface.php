@@ -23,7 +23,7 @@ interface CacheInterface
      * @param string $value
      * @return bool
      */
-    public function addToKey(string $key, string $value): bool;
+    public function addToKey(string $key, $value): bool;
 
     /**
      * @param string $key

@@ -60,7 +60,7 @@ class CacheService implements CacheInterface
 
     /**
      * @param string $key
-     * @param string $value
+     * @param $value
      *
      * @return bool
      */
