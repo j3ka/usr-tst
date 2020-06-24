@@ -60,14 +60,6 @@ class Session
 
     public function query(string $entityClass): Query
     {
-        /*
-        $ref = new ReflectionClass($entityClass);
-        if (!in_array(EntityInterface::class, $ref->getInterfaceNames())) {
-             throw new InvalidArgumentException('Class '.$entityClass.' must implement EntityInterface');
-        }
-        $entity = $ref->newInstanceWithoutConstructor();
-        */
-
         return new Query(
             $this->entityResolver->getTableName($entityClass), 
             $this->entityResolver->getFieldList($entityClass),

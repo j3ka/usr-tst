@@ -4,7 +4,7 @@ namespace Lib\App\Config;
 
 class JsonConfig implements ConfigInterface
 {
-    private const DEFAULT_ARGUMENT_SOURCE = 'env',
+    public const DEFAULT_ARGUMENT_SOURCE = 'env',
                   ENV_SORUCE = 'env',
                   RAW_SOURCE = 'raw';
     /**

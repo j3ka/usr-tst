@@ -67,7 +67,7 @@ class Container implements ContainerInterface
      * @return mixed|object
      * @throws ReflectionException
      */
-    public function resolve(string $className)
+    private function resolve(string $className)
     {
         $ref = new ReflectionClass($className);
         if ($ref->isInterface()) {
