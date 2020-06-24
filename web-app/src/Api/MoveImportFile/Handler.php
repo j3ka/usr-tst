@@ -28,7 +28,7 @@ class Handler
      * @param Command $cmd
      * @return string|null
      */
-    public function __invoke(Command $cmd): ?string
+    public function __invoke(Command $cmd): string
     {
         $path = $this->projectDir.self::DEFAULT_DIR;
         if (file_exists($path) && !is_dir($path)) {
@@ -40,7 +40,7 @@ class Handler
         $fileName = $path.'/'.$this->generateFileName();
 
         if (!move_uploaded_file($cmd->getFileName(), $fileName)) {
-            return null;
+            throw new \Exception('File is not uploadable');
         }
 
         return $fileName;

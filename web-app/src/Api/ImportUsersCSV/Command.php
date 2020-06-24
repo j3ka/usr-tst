@@ -4,7 +4,7 @@ namespace App\Api\ImportUsersCSV;
 
 class Command
 {
-    private const DEFAULT_CHUNK_SIZE = 100;
+    public const DEFAULT_CHUNK_SIZE = 100;
     /**
      * @var string
      */

@@ -66,12 +66,12 @@ class ImportUsersController implements RequestHandlerInterface
         }
 
         $tmpFileName = $form->getClearedData()['users']['tmp_name'];
-        $fileName = ($this->moveFileHandler)(new Command($tmpFileName));
-
-        if (null === $fileName) {
+        try {
+            $fileName = ($this->moveFileHandler)(new Command($tmpFileName));
+        } catch (\Throwable $e) {
             return new Response(
                 422,
-                $this->serializer->serialize(['error' => 'internal error']),
+                $this->serializer->serialize(['error' => $e->getMessage()]),
                 ['Content-Type: application/json']
             );
         }
