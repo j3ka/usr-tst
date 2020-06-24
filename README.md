@@ -9,7 +9,7 @@ In ``web-app`` directory execute:
 $ composer install --ignore-platform-reqs
 ```
 
-For build in root directory execute:
+For build, in root directory execute:
 ```bash
 $ make init
 ```
@@ -19,9 +19,9 @@ $ make up
 ```
 ***
 ### Composer dependencies:
-1. psr/container
-2. psr/http-message
-3. psr/http-server-handler
+1. psr/container (interfaces)
+2. psr/http-message (interfaces)
+3. psr/http-server-handler (interfaces)
 4. phpunit/phpunit
 5. predis/predis
 6. php-amqplib/php-amqplib
